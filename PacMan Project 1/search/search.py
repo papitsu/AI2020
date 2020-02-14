@@ -87,17 +87,59 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    fringe = util.Stack()
+    closed = []
 
+    fringe.push((problem.getStartState(), []))
+    while not fringe.isEmpty():
+        node, path = fringe.pop()
+        if problem.isGoalState(node):
+            return path
+        if node not in closed:
+            closed.append(node)
+            successors = problem.getSuccessors(node)
+            for successor in successors:
+                newPath = path + [successor[1]]
+                fringe.push((successor[0], newPath))
+    
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    fringe = util.Queue()
+    closed = []
+
+    fringe.push((problem.getStartState(), []))
+    while not fringe.isEmpty():
+        node, path = fringe.pop()
+        if problem.isGoalState(node):
+            return path
+        if node not in closed:
+            closed.append(node)
+            successors = problem.getSuccessors(node)
+            for successor in successors:
+                newPath = path + [successor[1]]
+                fringe.push((successor[0], newPath))
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    fringe = util.PriorityQueue()
+    closed = []
+
+    fringe.push((problem.getStartState(), []), 0)
+    while not fringe.isEmpty():
+        (node, path) = fringe.pop()
+        if problem.isGoalState(node):
+            return path
+        if node not in closed:
+            closed.append(node)
+            successors = problem.getSuccessors(node)
+            for successor in successors:
+                newPath = path + [successor[1]]
+                cost = successor[2]
+                fringe.push((successor[0], newPath), cost)
 
 def nullHeuristic(state, problem=None):
     """
